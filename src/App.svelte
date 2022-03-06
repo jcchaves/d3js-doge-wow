@@ -17,15 +17,17 @@
 		soColourful: { movement: {}, rainbow: {} },
 		veryFancy: { movement: {}, rainbow: {} },
 	};
+	const coinsAmount = 3;
 	let coinsData = [];
 
 	function setupCoinsData() {
 		const curTimestamp = Date.now();
-		[...Array(10).keys()].forEach((d) => {
+		[...Array(coinsAmount).keys()].forEach((d) => {
 			coinsData.push({
 				id: curTimestamp + d,
 				x: Math.random() * 640,
 				y: 0,
+				url: "/assets/doge_coin.svg"
 			});
 		});
 	}
@@ -68,7 +70,7 @@
 		const coins = nodes
 			.enter()
 			.append("image")
-			.attr("xlink:href", "/assets/doge_coin.svg")
+			.attr("xlink:href", (datum) => datum.url)
 			.attr("x", (datum) => datum.x)
 			.attr("y", (datum) => datum.y)
 			.attr("width", "75px")
@@ -105,11 +107,17 @@
 	}
 
 	function addCoin(seed) {
+		const prob = Math.random();
+		let url = "/assets/doge_coin.svg";
+		if (coinsAmount > 5 && prob < 0.05) {
+			url = "/assets/shiba_inu_coin.svg"
+		}
 		const curTimestamp = Date.now();
 		coinsData.push({
 			id: curTimestamp + seed,
 			x: Math.random() * 640,
 			y: 0,
+			url
 		});
 	}
 
